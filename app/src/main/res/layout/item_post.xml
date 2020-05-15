@@ -10,49 +10,20 @@
             type="com.example.mvvmattempt.data.Post" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/card_corner"
-        app:cardElevation="@dimen/card_elevation"
-        app:contentPaddingBottom="@dimen/card_padding"
-        app:contentPaddingTop="@dimen/card_padding"
-        >
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp">
 
             <TextView
-                android:id="@+id/card_post_user_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_border_horizontal"
-                android:text="@{String.valueOf(post.userId)}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="userId" />
-
-            <TextView
-                android:id="@+id/card_post_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="@{String.valueOf(post.id)}"
-                app:layout_constraintStart_toEndOf="@+id/card_post_user_id"
-                app:layout_constraintTop_toTopOf="@+id/card_post_user_id"
-                tools:text="id" />
-
-            <TextView
                 android:id="@+id/card_post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_element_vertical"
+                android:layout_marginStart="8dp"
                 android:text="@{post.title}"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/card_post_user_id"
-                app:layout_constraintTop_toBottomOf="@+id/card_post_user_id"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="title" />
 
             <TextView
@@ -62,10 +33,9 @@
                 android:layout_marginTop="8dp"
                 android:text="@{post.body}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/card_post_user_id"
+                app:layout_constraintStart_toStartOf="@+id/card_post_title"
                 app:layout_constraintTop_toBottomOf="@+id/card_post_title"
                 tools:text="body" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 </layout>
