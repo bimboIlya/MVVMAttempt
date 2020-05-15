@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MVVMAttempt</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="loading_error">Something went wrong. Check Internet connection</string>
+
+
+</resources>

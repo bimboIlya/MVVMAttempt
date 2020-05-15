@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+
+        <item name="drawerArrowStyle">@style/AppDrawerArrow</item>
+    </style>
+
+    <!--    color wont change, I give up-->
+    <style name="AppTheme.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TextStyle</item>
+        <item name="titleTextColor">@color/colorActionBarTitle</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.TextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorActionBarTitle</item>
+    </style>
+
+    <style name="AppDrawerArrow" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/colorActionBarTitle</item>
+        <item name="spinBars">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+</resources>

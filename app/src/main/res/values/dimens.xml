@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_padding">4dp</dimen>
+    <dimen name="card_corner">4dp</dimen>
+    <dimen name="margin_border_horizontal">16dp</dimen>
+    <dimen name="margin_element_vertical">8dp</dimen>
+</resources>

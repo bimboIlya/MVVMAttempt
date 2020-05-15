@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="comment"
+            type="com.example.mvvmattempt.data.Comment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/card_comment_name"
+            android:text="@{comment.name}"
+            android:textColor="@color/colorCardCommentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_border_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="name" />
+
+        <TextView
+            android:id="@+id/card_comment_body"
+            android:text="@{comment.body}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_element_vertical"
+            app:layout_constraintStart_toStartOf="@+id/card_comment_name"
+            app:layout_constraintTop_toBottomOf="@+id/card_comment_name"
+            tools:text="body" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
