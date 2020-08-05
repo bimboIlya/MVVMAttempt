@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmattempt.data.Post
 import com.example.mvvmattempt.databinding.ItemPostBinding
 
+/**
+ * Adapter for RecyclerView in [PostsListFragment]
+ */
 class PostsListAdapter : ListAdapter<Post, PostsListAdapter.PostViewHolder>(ItemPostCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -18,8 +21,6 @@ class PostsListAdapter : ListAdapter<Post, PostsListAdapter.PostViewHolder>(Item
 
         return PostViewHolder(binding)
     }
-
-    override fun getItemCount(): Int = currentList.size
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(currentList[position])

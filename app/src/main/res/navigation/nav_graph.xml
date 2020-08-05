@@ -3,28 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/post_list_fragment">
+    app:startDestination="@id/post_list_fragment_dest">
 
     <fragment
-        android:id="@+id/post_list_fragment"
+        android:id="@+id/post_list_fragment_dest"
         android:name="com.example.mvvmattempt.ui.posts.PostsListFragment"
-        android:label="Front Page"
-        tools:layout="@layout/fragment_post_list" >
+        android:label="@string/front_page_label"
+        tools:layout="@layout/fragment_posts_list">
 
         <action
             android:id="@+id/action_post_list_fragment_to_post_fragment"
-            app:destination="@id/post_fragment" />
+            app:destination="@id/post_fragment_dest" />
     </fragment>
 
 
     <fragment
-        android:id="@+id/post_fragment"
+        android:id="@+id/post_fragment_dest"
         android:name="com.example.mvvmattempt.ui.post.PostFragment"
-        android:label="Comments"
-        tools:layout="@layout/fragment_post" >
+        android:label="@string/comments_page_label"
+        tools:layout="@layout/fragment_post">
 
         <argument
             android:name="post"
             app:argType="com.example.mvvmattempt.data.Post" />
     </fragment>
+
+    <fragment
+        android:id="@+id/gallery_fragment_dest"
+        android:name="com.example.mvvmattempt.ui.gallery.GalleryFragment"
+        android:label="Gallery"
+        tools:layout="@layout/fragment_gallery" />
 </navigation>

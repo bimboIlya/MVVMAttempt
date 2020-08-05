@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">MVVMAttempt</string>
     <string name="action_refresh">Refresh</string>
-    <string name="loading_error">Something went wrong. Check Internet connection</string>
+    <string name="loading_error">Something went wrong. Try again later.</string>
+    <string name="posts">Posts</string>
+    <string name="gallery">Gallery</string>
+    <string name="front_page_label">Front Page</string>
+    <string name="comments_page_label">Comments</string>
 
 
 </resources>

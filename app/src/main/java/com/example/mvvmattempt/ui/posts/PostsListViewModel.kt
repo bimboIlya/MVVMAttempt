@@ -1,64 +1,63 @@
 package com.example.mvvmattempt.ui.posts
 
-import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.mvvmattempt.R
 import com.example.mvvmattempt.data.Post
-import com.example.mvvmattempt.network.NetworkService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.mvvmattempt.data.source.repository.PostRepository
+import com.example.mvvmattempt.ui.common.LoaderViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
-class PostsListViewModel : ViewModel() {
-    private val placeholderApi by lazy { NetworkService.getService() }
+class PostsListViewModel @ViewModelInject constructor(
+    private val repo: PostRepository
+) : LoaderViewModel() {
 
-    private val _postsList =  MutableLiveData<List<Post>>()
-    private val _isLoading =  MutableLiveData<Boolean>()
-    private val _errorMessageId = MutableLiveData<Int>()
 
+    private val _postsList = MutableLiveData<List<Post>>()
     val postsList: LiveData<List<Post>> = _postsList
-    val isLoading: LiveData<Boolean> = _isLoading
-    val errorMessageId: LiveData<Int> = _errorMessageId
 
     init {
-        loadPosts()
+        load(USER_ID)
     }
 
-    fun loadPosts() {
-        loadingStarted()
-
-        placeholderApi.getPosts(USER_ID).enqueue(object : Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                Log.d(TAG, "Success network call")
-                _postsList.value = response.body()
-                loadingStopped()
-            }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                Log.d(TAG, "Failed network call")
-                loadingStopped()
-                loadingFailed()
-            }
-        })
+    override fun load(id: Long) {
+        disposables.add(
+            repo.getPostsByUserId(USER_ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loadingStarted() }
+                .subscribe(
+                    { posts ->
+                        Timber.d("Success getting ${posts.size} posts")
+                        if (posts.isNotEmpty()) {     // Room returns empty list if
+                            loadingStopped()          // there are no entries
+                            _postsList.value = posts
+                        } else {
+                            loadingFailed()
+                        }
+                    },
+                    {
+                        Timber.d("Failed getting posts")
+                        loadingFailed()
+                    }
+                )
+        )
     }
 
-    private fun loadingStarted() {
-        _isLoading.value = true
+    override fun loadingFailed() {
+        loadingStopped()
+        setMessageId(R.string.loading_error)
     }
 
-    private fun loadingStopped() {
-        _isLoading.value = false
-    }
-
-    private fun loadingFailed() {
-        _errorMessageId.value = R.string.loading_error
+    override fun retry() {
+        load(USER_ID)
     }
 
 
-    companion object{
-        const val USER_ID = 1L
-        const val TAG = "PostsListViewModel"
+    companion object {
+        const val USER_ID = 1L  // constant id for simplicity
     }
 }

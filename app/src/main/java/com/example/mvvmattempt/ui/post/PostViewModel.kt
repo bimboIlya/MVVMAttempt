@@ -1,63 +1,59 @@
 package com.example.mvvmattempt.ui.post
 
-import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.mvvmattempt.R
 import com.example.mvvmattempt.data.Comment
-import com.example.mvvmattempt.network.NetworkService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.mvvmattempt.data.source.repository.PostRepository
+import com.example.mvvmattempt.ui.common.LoaderViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
-class PostViewModel : ViewModel() {
-    private val placeholderApi by lazy { NetworkService.getService() }
+class PostViewModel @ViewModelInject constructor(
+    private val repo: PostRepository
+) : LoaderViewModel() {
+
+
     private val _commentList = MutableLiveData<List<Comment>>()
-    private val _isLoading = MutableLiveData<Boolean>()
-    private val _errorMessageId = MutableLiveData<Int>()
+    val commentList: LiveData<List<Comment>> = _commentList
 
-    val postsList: LiveData<List<Comment>> = _commentList
-    val isLoading: LiveData<Boolean> = _isLoading
-    val errorMessageId: LiveData<Int> = _errorMessageId
+    private val _postId = MutableLiveData<Long>()
+    val postId: LiveData<Long> = _postId
 
-//    init { loadPosts() }
 
-    // id нужно инжектить в конструктор, но в этой версии я этого делать не буду
-    // обе ViewModel почти идентичны, нужно наследоваться от базовой версии
-    fun loadComments(postId: Long) {
-        loadingStarted()
-
-        placeholderApi.getComments(postId).enqueue(object : Callback<List<Comment>> {
-            override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
-                Log.d(TAG, "Success network call")
-                _commentList.value = response.body()
-                loadingStopped()
-            }
-
-            override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
-                Log.d(TAG, "Failed network call")
-                loadingStopped()
-                loadingFailed()
-            }
-        })
+    fun setPostIdAndGetComments(id: Long) {
+        _postId.value = id
+        load(id)
     }
 
-    private fun loadingStarted() {
-        _isLoading.value = true
+    override fun load(id: Long) {
+        disposables.add(
+            repo.getCommentsByPostId(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loadingStarted() }
+                .subscribe(
+                    {
+                        Timber.d("onSuccess()")
+                        _commentList.value = it
+                        loadingStopped()
+                    },
+                    {
+                        Timber.d("onError()")
+                        loadingFailed()
+                    }
+                )
+        )
     }
 
-    private fun loadingStopped() {
-        _isLoading.value = false
+    override fun retry() {
+        postId.value?.let { load(it) }
     }
 
-    private fun loadingFailed() {
-        _errorMessageId.value = R.string.loading_error
+    override fun loadingFailed() {
+        loadingStopped()
+        setMessageId(R.string.loading_error)
     }
-
-
-    companion object {
-        const val TAG = "PostViewModel"
-    }
-
 }

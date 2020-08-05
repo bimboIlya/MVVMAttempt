@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmattempt.data.Comment
 import com.example.mvvmattempt.databinding.ItemCommentBinding
 
+/**
+ * Adapter for RecyclerView in [PostFragment]
+ */
 class CommentListAdapter :
     ListAdapter<Comment, CommentListAdapter.CommentViewHolder>(CommentItemCallback()) {
-//    private val commentList = listOf<Comment>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2962ff</color>
-    <color name="colorPrimaryDark">#0039cb</color>
-    <color name="colorAccent">#768fff</color>
+    <color name="color_primary">#2962ff</color>
+    <color name="color_primary_dark">#0039cb</color>
+    <color name="color_accent">#768fff</color>
 
-    <color name="colorActionBarTitle">#FFFFFF</color>
-    <color name="colorCardCommentName">#3F51B5</color>
+    <color name="color_action_bar_title">#FFFFFF</color>
+
+    <color name="color_post_title">#2E2C2C</color>
+    <color name="color_post_body">#2E2C2C</color>
+
+    <color name="color_comment_name">#3F51B5</color>
+    <color name="color_comment_body">#2E2C2C</color>
 </resources>

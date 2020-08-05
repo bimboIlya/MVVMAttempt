@@ -17,7 +17,8 @@
         <TextView
             android:id="@+id/card_comment_name"
             android:text="@{comment.name}"
-            android:textColor="@color/colorCardCommentName"
+            android:textColor="@color/color_comment_name"
+            android:textSize="@dimen/comment_name_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_border_horizontal"
@@ -27,10 +28,12 @@
 
         <TextView
             android:id="@+id/card_comment_body"
-            android:text="@{comment.body}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_element_vertical"
+            android:text="@{comment.body}"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="@dimen/comment_body_text_size"
             app:layout_constraintStart_toStartOf="@+id/card_comment_name"
             app:layout_constraintTop_toBottomOf="@+id/card_comment_name"
             tools:text="body" />

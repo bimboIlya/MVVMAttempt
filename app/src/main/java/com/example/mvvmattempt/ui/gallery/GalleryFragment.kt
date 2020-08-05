@@ -1,51 +1,53 @@
-package com.example.mvvmattempt.ui.post
-
+package com.example.mvvmattempt.ui.gallery
 
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.navArgs
 import com.example.mvvmattempt.R
-import com.example.mvvmattempt.databinding.FragmentPostBinding
+import com.example.mvvmattempt.databinding.FragmentGalleryBinding
 import com.example.mvvmattempt.ui.common.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PostFragment : Fragment() {
+class GalleryFragment : Fragment() {
 
-    private lateinit var binding: FragmentPostBinding
-    private val adapter = CommentListAdapter()
-    private val args: PostFragmentArgs by navArgs()
-    private val mViewModel by viewModels<PostViewModel>()
+    private lateinit var binding: FragmentGalleryBinding
+
+    private val viewModel by viewModels<GalleryViewModel>()
+
+    private val adapter = GalleryAdapter()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPostBinding.inflate(inflater).apply {
-            post = args.post
-            viewmodel = mViewModel
-            commentList.adapter = adapter
+        binding = FragmentGalleryBinding.inflate(inflater).apply {
+            viewmodel = viewModel
+            picList.adapter = adapter
             lifecycleOwner = viewLifecycleOwner
         }
-
-        mViewModel.setPostIdAndGetComments(args.post.id)
-
         setHasOptionsMenu(true)
         subscribeUi()
+
+        // Without this, when Back Button is pressed, navigates back to PostsListFragment
+        requireActivity().onBackPressedDispatcher.addCallback(this, true) {
+            requireActivity().finish()
+        }
 
         return binding.root
     }
 
     private fun subscribeUi() {
-        mViewModel.commentList.observe(viewLifecycleOwner,
+        viewModel.picList.observe(viewLifecycleOwner,
             Observer { adapter.submitList(it) })
 
-        mViewModel.message.observe(viewLifecycleOwner,
-            EventObserver { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() })
+        viewModel.message.observe(viewLifecycleOwner,
+            EventObserver { Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show() })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -62,6 +64,6 @@ class PostFragment : Fragment() {
         }
 
     private fun retry() {
-        mViewModel.retry()
+        viewModel.retry()
     }
 }
